@@ -1,38 +1,73 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="Content-Type" const="text/html;charset=UTF-8" />
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="http://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="style.css" >
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
-    <title>Chat App</title>
-  </head>
-
-  <body>
-    <header>
-      <h1>Чат</h1>
-    </header>
-
-    <section>
-      <div id="change_username">
-	<input id="username" type="text" />
-	<button id="send_username" type="button">Изменить имя пользователя</button>
-      </div>
-    </section>
-
-    <section id="chatroom">
-      <section id="feedback"></section>
-    </section>
-
-    
-
-    <section id="input_zone"> 
-      <input id="message" class="vertical-align" type="text" />
-      <button id="send_message" class="vertical-align" type="button">Отправаить</button>
-    </section>
-
-    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
     <script src="chat.js"></script>
-  </body>
+    <script src="chatSelection.js"></script>
+    <title>Chat App</title>
+</head>
+<body class="light-theme">
+    <button id="toggle-theme">Переключить тему</button>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3 bg-light border-right" id="sidebar">
+                <h4>Выбор никнейма</h4>
+                <input id="username" type="text" class="form-control" placeholder="Введите никнейм" />
+                <button id="send_username" class="btn btn-primary btn-block mt-2">Установить никнейм</button>
+                <h4 class="mt-4">Чаты</h4>
+                <ul id="chat_list" class="list-group">
+                    <li class="list-group-item chat-item" data-chat-id="1">Чат 1</li>
+                    <li class="list-group-item chat-item" data-chat-id="2">Чат 2</li>
+                    <li class="list-group-item chat-item" data-chat-id="3">Чат 3</li>
+                    <!-- Добавьте больше чатов по желанию -->
+                </ul>
+            </div>
+
+            <div class="col-md-9">
+                <header class="bg-primary text-white text-center py-3">
+                    <h1>Чат</h1>
+                </header>
+
+                <section id="chatroom" class="p-3">
+                    <div id="feedback"></div>
+                    <div id="messages" class="border p-3" style="height: 400px; overflow-y: scroll;"></div>
+                </section>
+
+                <section id="input_zone" class="p-3"> 
+                    <input id="message" class="form-control mt-2" type="text" placeholder="Введите сообщение" />
+                    <input type="file" id="file_input" class="mt-2" accept="image/*" />
+                    <button id="emoji_button" class="btn btn-light mt-2">😊</button>
+                    <button id="send_message" class="btn btn-success mt-2">Отправить</button>
+                </section>
+
+                <!-- Меню смайлов -->
+                <div id="emoji_menu" style="display:none;">
+                    <div class="emoji" data-emoji="😊">😊</div>
+                    <div class="emoji" data-emoji="😂">😂</div>
+                    <div class="emoji" data-emoji="😍">😍</div>
+                    <div class="emoji" data-emoji="😢">😢</div>
+                    <div class="emoji" data-emoji="😎">😎</div>
+                    <div class="emoji" data-emoji="🔥">🔥</div>
+                    <div class="emoji" data-emoji="👍">👍</div>
+                    <div class="emoji" data-emoji="👀">👀</div>
+                    <div class="emoji" data-emoji="💪">💪</div>
+                    <div class="emoji" data-emoji="🌟">🌟</div>
+                    <!-- Дополните другие смайлики по вашему желанию -->
+                </div>                
+
+                <!-- Элемент для отображения текущего ника -->
+                <div id="current_nickname" class="text-center mt-2" style="display:none;">
+                    <strong>Вы общаетесь как: <span id="nickname_display">Anonymous</span></strong>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
 </html>
