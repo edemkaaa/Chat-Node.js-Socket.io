@@ -95,6 +95,11 @@ io.on('connection', (socket) => {
 		if (activeUsernames.has(data.username)) {
 			socket.emit('username_error', 'Ник уже занят. Пожалуйста, выберите другой.'); // Отправляем ошибку
 		} else {	
+			activeUsernames.forEach((username) => {
+				if (username === data.username) {
+					socket.emit('username_error', 'Ник уже занят. Пожалуйста, выберите другой.'); // Отправляем ошибку
+				}
+			});
 			socket.username = data.username; // Сохраняем никнейм в сокете
 			activeUsernames.add(data.username); // Добавляем никнейм в активные
 			console.log('Никнейм изменен на:', socket.username); // Отладочное сообщение
@@ -106,7 +111,8 @@ io.on('connection', (socket) => {
 		// Отправляем сообщение всем клиентам
 		io.emit("add_mess", {
 			username: socket.username || "Anonymous",
-			message: data.message
+			message: data.message,
+			time: data.time // Передаем время
 		});
 	});
 

@@ -28,6 +28,7 @@ $(document).ready(function() {
       $("#nickname_display").text(name); // Обновляем отображаемый ник
       $("#current_nickname").show(); // Показываем текущий ник
       console.log("Никнейм установлен:", name);
+      $(this).val(''); // Очищаем поле ввода после установки
     }
   });
 
@@ -73,9 +74,10 @@ $(document).ready(function() {
   send_message.on("click", () => {
     const messageText = message.val().trim(); // Получаем текст сообщения
     if (messageText !== "") {
-      // Отправляем сообщение на сервер
+      const timestamp = new Date().toLocaleTimeString(); // Получаем текущее время
       socket.emit("new_message", {
-        message: messageText
+        message: messageText,
+        time: timestamp // Отправляем время вместе с сообщением
       });
       $("#message").val(""); // Очищаем поле ввода
     } else {
@@ -102,7 +104,15 @@ $(document).ready(function() {
 
   // Обработка новых сообщений
   socket.on("add_mess", (data) => {
-    $("#messages").append(`<div><b>${data.username}</b>: ${data.message}</div>`);
+    // Добавляем сообщение с рамкой и временем
+    $("#messages").append(`
+        <div class="message">
+            <div>
+                <b>${data.username}</b>: ${data.message}
+            </div>
+            <div class="message-time">${data.time}</div>
+        </div>
+    `);
   });
 
   socket.on('connect', () => {
@@ -119,13 +129,15 @@ $(document).ready(function() {
     });
   });
 
-  $("#send_username").on("click", function() {
-    const name = $("#username").val();
+  $("#send_username").one("click", function() {
+    const name = $("#username").val().trim(); // Убираем пробелы
+    console.log("Введенный никнейм:", name); // Отладочное сообщение
     if (name) {
         socket.emit("change_username", { username: name });
         $("#nickname_display").text(name); // Обновляем отображаемый ник
         $("#current_nickname").show(); // Показываем текущий ник
         console.log("Никнейм установлен:", name);
+        $("#username").val(''); // Очищаем поле ввода после установки
     } else {
         alert("Пожалуйста, введите никнейм."); // Сообщение об ошибке
     }

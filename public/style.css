@@ -20,8 +20,7 @@ body {
     margin: 0;
     height: 100%;
     font-family: 'Comfortaa', sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-color);
+    background-color: #f8f9fa;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -29,13 +28,13 @@ body {
 }
 
 .light-theme {
-    --bg-color: white;
-    --text-color: black;
+    background-color: white;
+    color: black;
 }
 
 .dark-theme {
-    --bg-color: black;
-    --text-color: white;
+    background-color: black;
+    color: white;
 }
 
 header {
@@ -64,7 +63,7 @@ div#change_username {
 section#chatroom {
     height: 85%;
     overflow-y: auto;
-    background-color: var(--bg-color);
+    background-color: #ffffff;
     border: 1px solid #ced4da;
     border-radius: 5px;
     padding: 10px;
@@ -124,9 +123,23 @@ button#send_message:hover {
 p.message {
     margin: 0;
     padding: 10px;
-    background-color: rgb(87, 113, 230);
+    background-color: #e6e6e6;
     color: white;
-    border-radius: 5px;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 5px 0;
+    max-width: 60%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.message-time {
+    font-size: 0.8em;
+    color: gray;
+    margin-left: 10px;
+    align-self: flex-end;
 }
 
 #usernameModal {
@@ -177,7 +190,7 @@ p.message {
 }
 
 #messages {
-    background-color: var(--bg-color);
+    background-color: white;
     border-radius: 5px;
     padding: 10px;
 }
@@ -191,7 +204,7 @@ p.message {
     overflow-y: auto;
     border: 1px solid #ced4da;
     border-radius: 5px;
-    background-color: var(--bg-color);
+    background-color: #ffffff;
 }
 
 #input_zone {
@@ -233,4 +246,9 @@ p.message {
 
 button {
     margin: 10px;
+}
+
+.chat-item.active {
+    background-color: #007bff; /* Цвет фона для активного чата */
+    color: white; /* Цвет текста для активного чата */
 }
