@@ -120,19 +120,15 @@ button#send_message:hover {
     border-radius: 5px;
 }
 
-p.message {
-    margin: 0;
+.message {
+    margin: 5px 0;
     padding: 10px;
     background-color: #e6e6e6;
-    color: white;
-    border-radius: 8px;
-    padding: 10px;
-    margin: 5px 0;
+    border-radius: 10px;
+    border: 1px solid #ccc;
     max-width: 60%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: relative;
 }
 
 .message-time {
@@ -140,6 +136,9 @@ p.message {
     color: gray;
     margin-left: 10px;
     align-self: flex-end;
+    position: absolute;
+    bottom: 5px;
+    right: 10px;
 }
 
 #usernameModal {
@@ -251,4 +250,14 @@ button {
 .chat-item.active {
     background-color: #007bff; /* Цвет фона для активного чата */
     color: white; /* Цвет текста для активного чата */
+}
+
+.sent {
+    background-color: #dcf8c6; /* Цвет фона для отправленных сообщений */
+    border: 1px solid #a3d8a3; /* Обводка для отправленных сообщений */
+}
+
+.received {
+    background-color: #ffffff; /* Цвет фона для полученных сообщений */
+    border: 1px solid #ccc; /* Обводка для полученных сообщений */
 }

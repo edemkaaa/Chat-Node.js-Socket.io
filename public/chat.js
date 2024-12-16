@@ -13,6 +13,10 @@ $(document).ready(function() {
   socket = io.connect("http://localhost:3000"); // Инициализируем socket
   console.log("Подключение к сокетам:", socket); // Проверка подключения
 
+  socket.on('connect', () => {
+    console.log('Клиент подключен к сокетам'); // Отладочное сообщение
+  });
+
   var message = $("#message");
   var send_message = $("#send_message");
   var emoji_button = $("#emoji_button");
@@ -106,18 +110,31 @@ $(document).ready(function() {
   socket.on("add_mess", (data) => {
     // Добавляем сообщение с рамкой и временем
     $("#messages").append(`
-        <div class="message">
+        <div class="message sent">
             <div>
                 <b>${data.username}</b>: ${data.message}
             </div>
             <div class="message-time">${data.time}</div>
         </div>
     `);
+
+    // Сохраняем сообщение в локальное хранилище
+    console.log("Сохраняем сообщение в локальное хранилище:", data); // Отладочное сообщение
+    saveMessageToLocalStorage(data);
   });
 
-  socket.on('connect', () => {
-    console.log('Клиент подключен к сокетам'); // Отладочное сообщение
-  });
+  // Функция для сохранения сообщения в локальное хранилище
+  function saveMessageToLocalStorage(data) {
+    const chatId = currentChatId; // Получите текущий ID чата
+    if (chatId !== null) { // Убедитесь, что chatId не null
+        let messages = JSON.parse(localStorage.getItem(`chat_${chatId}`)) || [];
+        messages.push(data);
+        localStorage.setItem(`chat_${chatId}`, JSON.stringify(messages));
+        console.log("Сообщение сохранено:", messages); // Отладочное сообщение
+    } else {
+        console.error("Ошибка: currentChatId равен null");
+    }
+  }
 
   socket.on('disconnect', () => {
     console.log('Клиент отключен от сокетов'); // Отладочное сообщение
@@ -139,7 +156,7 @@ $(document).ready(function() {
         console.log("Никнейм установлен:", name);
         $("#username").val(''); // Очищаем поле ввода после установки
     } else {
-        alert("Пожалуйста, введите никнейм."); // Сообщение об ошибке
+        alert("Вы успешно зашли в чат"); // Сообщение об ошибке
     }
   });
 
